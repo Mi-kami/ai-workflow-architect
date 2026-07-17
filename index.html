@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Workflow Architect</title>
+<meta name="description" content="Describe what you do. Get a complete, tailored, end-to-end AI-augmented workflow — mapped stage by stage, with the right tools scored and ranked for your exact situation." />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name">AI Workflow Architect</div>
+        <div class="brand-sub">Blueprint for your work</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" title="Toggle light/dark">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" id="startOverBtn" title="Start a new workflow" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- SCREEN 1: INTAKE -->
+      <section class="screen active" id="screen-intake">
+        <div class="hero">
+          <div class="eyebrow">AI-tailored, not templated</div>
+          <h1>Describe what you do.<br>Get the <span class="accent">exact workflow</span> for it.</h1>
+          <p class="lede">No industry picker, no menus. Tell it what your work actually looks like and it drafts a complete, stage-by-stage AI-augmented workflow built specifically around that.</p>
+
+          <div class="intake-panel">
+            <div class="corner-marks"><i></i><i></i><i></i><i></i></div>
+            <div class="field-label"><span class="num">1</span> Tell it about your work</div>
+            <textarea id="descriptionInput" rows="5" placeholder="e.g. I'm a freelance social media manager handling Instagram and TikTok for 4 small skincare brands. I plan content, write captions, shoot short videos, and report engagement monthly..."></textarea>
+            <div class="hint">Be specific — your role, what you actually produce, and who it's for. The more real detail, the more tailored the workflow.</div>
+            <button class="btn btn-primary btn-block" id="submitDescription">
+              Continue
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: CLARIFY -->
+      <section class="screen" id="screen-clarify">
+        <div class="clarify-panel">
+          <div class="eyebrow">Narrowing it down</div>
+          <h2 style="font-family:var(--font-display); font-weight:600; font-size:24px; margin-bottom:8px;">A few quick questions</h2>
+          <p class="section-sub" style="margin-bottom:24px;">This is what makes the workflow yours instead of generic advice.</p>
+          <div id="clarifyQuestions"></div>
+
+          <div class="field-label" style="margin-top:26px;"><span class="num">*</span> Quick profile (for tool scoring)</div>
+          <div class="profile-row">
+            <div>
+              <label class="hint" style="display:block; margin-bottom:6px;">Budget comfort</label>
+              <select class="select-field" id="profileBudget">
+                <option value="1">Free tools only</option>
+                <option value="2" selected>Low — under $20/mo</option>
+                <option value="3">Moderate — $20-100/mo</option>
+                <option value="4">Flexible — $100-500/mo</option>
+                <option value="5">Enterprise budget</option>
+              </select>
+            </div>
+            <div>
+              <label class="hint" style="display:block; margin-bottom:6px;">Technical comfort</label>
+              <select class="select-field" id="profileSkill">
+                <option value="1" selected>I prefer no-code / GUI tools</option>
+                <option value="2">Comfortable with settings & config</option>
+                <option value="3">Can follow technical docs</option>
+                <option value="4">Comfortable with some code</option>
+                <option value="5">Developer-level</option>
+              </select>
+            </div>
+            <div>
+              <label class="hint" style="display:block; margin-bottom:6px;">Team size</label>
+              <select class="select-field" id="profileTeam">
+                <option value="solo" selected>Just me</option>
+                <option value="small">Small team (2-15)</option>
+                <option value="large">Larger org (15+)</option>
+              </select>
+            </div>
+            <div>
+              <label class="hint" style="display:block; margin-bottom:6px;">Data sensitivity</label>
+              <select class="select-field" id="profileData">
+                <option value="1" selected>Public / low stakes</option>
+                <option value="2">Somewhat private</option>
+                <option value="3">Client-confidential</option>
+                <option value="4">Regulated / sensitive</option>
+                <option value="5">Highly regulated (health, finance, legal)</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="submitClarify">
+            Generate my workflow
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: LOADING -->
+      <section class="screen" id="screen-loading">
+        <div class="loading-screen">
+          <div class="blueprint-spinner">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26"/></svg>
+          </div>
+          <div class="loading-text" id="loadingText">Drafting your workflow…</div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: ERROR -->
+      <section class="screen" id="screen-error">
+        <div class="loading-screen">
+          <div style="font-family:var(--font-mono); color:var(--rose); font-size:13px; max-width:440px; text-align:center; line-height:1.6;" id="errorText"></div>
+          <button class="btn btn-ghost" id="retryBtn">Try again</button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SCREEN 5: WORKFLOW (wide) -->
+    <section class="screen" id="screen-workflow">
+      <div class="container-wide">
+        <div class="workflow-header">
+          <div class="eyebrow" id="workflowEyebrow">Your workflow</div>
+          <h2 id="workflowTitle"></h2>
+          <p class="overview" id="workflowOverview"></p>
+
+          <div class="progress-track">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-label" id="progressLabel">0 / 0 stages complete</div>
+          </div>
+
+          <div class="header-actions">
+            <button class="chip-btn" id="toggleSectionsBtn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+              Customize sections
+            </button>
+            <button class="chip-btn" id="expandAllBtn">Expand all</button>
+            <button class="chip-btn" id="printBtn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+              Print / Save PDF
+            </button>
+          </div>
+
+          <div class="toggles-panel" id="togglesPanel"></div>
+        </div>
+
+        <div class="stage-diagram">
+          <div class="stage-diagram-track" id="stageDiagram"></div>
+        </div>
+
+        <div id="stagesContainer"></div>
+
+        <div class="summary-section" id="summarySection"></div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>AI Workflow Architect — built for the 60-Day Claude AI Mastery Challenge, Day 41</footer>
+</div>
+
+<script src="tools-data.js"></script>
+<script src="scoring.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
